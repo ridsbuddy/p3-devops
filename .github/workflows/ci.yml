@@ -38,6 +38,11 @@ jobs:
        - name: Checkout code
          uses: actions/checkout@v4
 
+       - name: Check Build Files
+         run: |
+          pwd
+          ls -la
+
        - name: Build Docker image
          run: |
            docker build -t book-inventory-api .
