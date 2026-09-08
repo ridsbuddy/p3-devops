@@ -34,15 +34,26 @@ jobs:
      needs: test
      runs-on: ubuntu-latest
 
+     permissions:
+       contents: read
+       packages: write
+
      steps:
        - name: Checkout code
          uses: actions/checkout@v4
 
-       - name: Check Build Files
-         run: |
-          pwd
-          ls -la
+       - name: Log in to GHCR
+         uses: docker/login-action@v3
+         with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
        - name: Build Docker image
          run: |
-           docker build -t book-inventory-api .
+           docker build -t ghcr.io/ridsbuddy/book-inventory-api:latest .
+
+       - name: Push Docker image
+         run: |
+           docker push ghcr.io/ridsbuddy/book-inventory-api:latest
+      
