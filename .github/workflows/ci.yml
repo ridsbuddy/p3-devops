@@ -56,4 +56,22 @@ jobs:
        - name: Push Docker image
          run: |
            docker push ghcr.io/ridsbuddy/book-inventory-api:latest
+
+       - name: Setup SSH
+         uses: webfactory/ssh-agent@v0.9.1
+         with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+       - name: Deploy to EC2
+         run: |
+           ssh -o StrictHostKeyChecking=no \
+             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
+               docker pull ghcr.io/ridsbuddy/book-inventory-api:latest &&
+               docker rm -f book-inventory-api || true &&
+               docker run -d \
+                 --name book-inventory-api \
+                 --restart unless-stopped \
+                 -p 5000:5000 \
+                 ghcr.io/ridsbuddy/book-inventory-api:latest
+             "   
       
