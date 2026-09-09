@@ -97,4 +97,6 @@ jobs:
          run: |
            ssh -o StrictHostKeyChecking=no \
              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-             "curl --fail http://localhost:5000/books"
+             "curl --fail http://localhost/books"
+
+      
