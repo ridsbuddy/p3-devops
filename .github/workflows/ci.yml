@@ -90,7 +90,7 @@ jobs:
          run: |
            ssh -o StrictHostKeyChecking=no \
              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-             "curl --fail http://localhost:5000/health"
+             "curl --fail http://localhost/health"
 
              
        - name: Books API Verification
