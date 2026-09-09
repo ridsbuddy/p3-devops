@@ -61,6 +61,21 @@ jobs:
          uses: webfactory/ssh-agent@v0.9.1
          with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+          
+        - name: Copy deployment files to EC2
+          run: |
+            ssh -o StrictHostKeyChecking=no \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+             "mkdir -p ~/p3-devops/nginx"
+
+            scp -o StrictHostKeyChecking=no \
+              docker-compose.yml \
+             ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/p3-devops/
+
+            scp -o StrictHostKeyChecking=no \
+              nginx/nginx.conf \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:~/p3-devops/nginx/
+
 
        - name: Deploy to EC2
          run: |
