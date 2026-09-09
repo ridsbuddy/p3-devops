@@ -1,6 +1,7 @@
+```yaml
 services:
   api:
-    build: .
+    image: ghcr.io/ridsbuddy/book-inventory-api:latest
     ports:
       - "5000:5000"
     environment:
@@ -9,9 +10,9 @@ services:
       DB_USER: bookuser
       DB_PASSWORD: bookpass
     depends_on:
-      - database  
+      - database
 
-   database:
+  database:
     image: postgres:16
     environment:
       POSTGRES_DB: booksdb
@@ -21,5 +22,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-    volumes:
-       postgres_data:
+volumes:
+  postgres_data:
+
+
+
