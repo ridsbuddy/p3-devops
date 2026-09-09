@@ -23,15 +23,22 @@ def home():
 
 @app.route("/books")
 def books():
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, title FROM books")
+
+    rows = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
     return [
         {
-            "id": 1,
-            "title": "Clean Code"
-        },
-        {
-            "id": 2,
-            "title": "The Phoenix Project"
+            "id": row[0],
+            "title": row[1]
         }
+        for row in rows
     ]
 
 @app.route("/health")
