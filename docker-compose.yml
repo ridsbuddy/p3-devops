@@ -1,4 +1,3 @@
-```yaml
 services:
   api:
     image: ghcr.io/ridsbuddy/book-inventory-api:latest
